@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -47,12 +47,7 @@ const toBanglaNumber = (num) => {
 };
 
 const NavbarPage = () => {
-  const [currentDate, setCurrentDate] = useState("");
-  const [activeCategory, setActiveCategory] = useState("rice");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
-
-  useEffect(() => {
+  const [currentDate] = useState(() => {
     const today = new Date();
     const days = [
       "রবিবার",
@@ -78,13 +73,11 @@ const NavbarPage = () => {
       "ডিসেম্বর",
     ];
 
-    const dayName = days[today.getDay()];
-    const dateNum = toBanglaNumber(today.getDate());
-    const monthName = months[today.getMonth()];
-    const yearNum = toBanglaNumber(today.getFullYear());
-
-    setCurrentDate(`${dayName}, ${dateNum} ${monthName}, ${yearNum}`);
-  }, []);
+    return `${days[today.getDay()]}, ${toBanglaNumber(today.getDate())} ${months[today.getMonth()]}, ${toBanglaNumber(today.getFullYear())}`;
+  });
+  const [activeCategory, setActiveCategory] = useState("rice");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
     <>
