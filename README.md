@@ -1,49 +1,99 @@
-# বাজার দর | BazarDor
+# BazarDor — Bangladesh Market Prices
 
-বাজার দর একটি responsive বাজারদর অ্যাপ, যেখানে বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আজকের দাম, বাজারভেদে মূল্য এবং দামের পরিবর্তন এক জায়গায় দেখা যায়।
+**BazarDor (বাজার দর)** helps people check the latest prices of essential products in Bangladesh. Browse products by category, compare market prices, and see which prices are rising or falling—all in one responsive web app.
 
-## Technologies
+## Features
 
-- Next.js App Router
-- React
-- JavaScript
-- Tailwind CSS
-- Better Auth
-- MongoDB
-- BazarDor Products API
+- **Daily market prices:** Browse everyday products in clear, easy-to-scan cards.
+- **Price movement highlights:** View separate lists of products with rising and falling prices.
+- **Categories and sorting:** Explore products by category and sort by price, including Bengali numerals.
+- **Product details:** See price summaries and available market-by-market price information.
+- **Accounts and profiles:** Sign in or register with email and password, or use configured Google and GitHub sign-in. View your profile and update your name.
+- **Responsive experience:** Use the app on mobile, tablet, and desktop, with loading skeletons, friendly not-found pages, and helpful notifications.
 
-## Key features
+## Technology Stack
 
-1. **আজকের বাজারদর:** চাল, ডাল, সবজি, মাছ, মাংসসহ বিভিন্ন পণ্যের দাম responsive card-এ দেখায়।
-2. **দাম পরিবর্তন:** আজ দাম বেড়েছে ও কমেছে—এমন পণ্যের আলাদা তালিকা এবং পরিবর্তনের badge।
-3. **ক্যাটাগরি ও sorting:** ক্যাটাগরির পণ্য দেখা এবং বাংলা অঙ্কসহ দাম কম বা বেশি অনুযায়ী সাজানো।
-4. **পণ্যের বিস্তারিত:** সর্বনিম্ন, সর্বোচ্চ ও গড় দামের সারাংশ এবং বাজারভিত্তিক আজকের দাম।
-5. **অ্যাকাউন্ট ও প্রোফাইল:** Better Auth দিয়ে email/password ও Google/GitHub sign-in, registration এবং প্রোফাইলের নাম আপডেট।
+| Technology | Purpose |
+| --- | --- |
+| [Next.js](https://nextjs.org/) App Router | Application framework and routing |
+| [React](https://react.dev/) | Interactive user interface |
+| [Tailwind CSS](https://tailwindcss.com/) | Responsive styling |
+| [Better Auth](https://www.better-auth.com/) | Authentication and account management |
+| [MongoDB](https://www.mongodb.com/) | Authentication data storage |
+| BazarDor Products API | Product, category, and market-price data |
 
-Loading skeleton, friendly 404, global toast এবং responsive footer-ও অ্যাপের অভিজ্ঞতার অংশ।
+## Getting Started
 
-## Getting started
+### Prerequisites
 
-1. Install dependencies:
+- Node.js and npm
+- A MongoDB connection string
+- OAuth credentials if you want to enable Google or GitHub sign-in
 
-   ```bash
-   npm install
-   ```
+### 1. Install dependencies
 
-2. Copy `.env.example` to `.env.local` and configure:
-   - `BETTER_AUTH_SECRET`: a unique secret; generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`.
-   - `BETTER_AUTH_URL`: the app origin, for example `http://localhost:3000`.
-   - `BETTER_AUTH_DB_URL`: a MongoDB connection string.
-   - Google and/or GitHub OAuth client ID and secret.
+```bash
+npm install
+```
 
-   Register the OAuth callback URLs as `http://localhost:3000/api/auth/callback/google` and `http://localhost:3000/api/auth/callback/github`.
+### 2. Configure environment variables
 
-3. Start the development server:
+Create a `.env.local` file in the project root:
 
-   ```bash
-   npm run dev
-   ```
+```env
+BETTER_AUTH_SECRET=replace-with-a-long-random-secret
+BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_DB_URL=your-mongodb-connection-string
 
-4. Open [http://localhost:3000](http://localhost:3000). Authentication pages are available at `/signin` and `/signup`.
+# Optional: configure either or both social providers
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+```
 
-Never commit `.env.local` or publish authentication credentials.
+Generate a secret locally with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
+For local OAuth development, configure these callback URLs with your providers:
+
+- Google: `http://localhost:3000/api/auth/callback/google`
+- GitHub: `http://localhost:3000/api/auth/callback/github`
+
+For deployment, set the environment variables in your hosting provider and update `BETTER_AUTH_URL` and OAuth callback URLs to use your deployed app origin. **Never commit `.env.local` or publish credentials.**
+
+### 3. Start the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Useful Commands
+
+```bash
+npm run dev    # Start the development server
+npm run lint   # Run ESLint
+npm run build  # Create a production build
+npm run start  # Start the production server (after building)
+```
+
+## Main Routes
+
+| Route | Description |
+| --- | --- |
+| `/` | Homepage and product sections |
+| `/categories/[slug]` | Products in a category |
+| `/product/[slug]` | Protected product details |
+| `/signin` | Sign in |
+| `/signup` | Create an account |
+| `/profile` | View your profile |
+| `/profile/update` | Update your profile name |
+
+---
+
+*Prices are indicative and may change depending on market conditions.*

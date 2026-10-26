@@ -8,9 +8,7 @@ export default function NotFound() {
       <h1 className="mt-2 text-2xl font-extrabold text-[#1D271F] sm:text-3xl">
         দুঃখিত, পৃষ্ঠাটি খুঁজে পাওয়া যায়নি
       </h1>
-      <p className="mt-3 max-w-md text-sm leading-6 text-gray-600">
-        ঠিকানাটি ভুল হতে পারে, অথবা পৃষ্ঠাটি সরিয়ে ফেলা হয়েছে।
-      </p>
+      
       <Link
         href="/"
         className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#05893E] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#047735] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#05893E]"
