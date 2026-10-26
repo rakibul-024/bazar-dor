@@ -7,11 +7,23 @@ const API_BASE_URLS = [
 const requestOptions = { next: { revalidate: 60 } };
 
 export async function getProducts() {
+  return requestList("/products", "product list");
+}
+
+export async function getProductsByCategory(slug) {
+  return requestList(`/products?category=${encodeURIComponent(slug)}`, `products for category ${slug}`);
+}
+
+export async function getCategories() {
+  return requestList("/categories", "category list");
+}
+
+async function requestList(path, description) {
   const failures = [];
 
   for (const baseUrl of API_BASE_URLS) {
     try {
-      const response = await fetch(`${baseUrl}/products`, requestOptions);
+      const response = await fetch(`${baseUrl}${path}`, requestOptions);
       if (!response.ok) {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -22,7 +34,7 @@ export async function getProducts() {
         : payload?.data?.products ?? payload?.data ?? payload?.products;
 
       if (!Array.isArray(products)) {
-        throw new Error("The API returned an invalid product list");
+        throw new Error(`The API returned an invalid ${description}`);
       }
 
       return products;
@@ -31,7 +43,7 @@ export async function getProducts() {
     }
   }
 
-  throw new Error(`Unable to load products. ${failures.join(" | ")}`);
+  throw new Error(`Unable to load ${description}. ${failures.join(" | ")}`);
 }
 
 export async function getProductById(id) {
@@ -74,54 +86,13 @@ export async function getProductById(id) {
   throw new Error(`Unable to load product ${id}. ${failures.join(" | ")}`);
 }
 
-export function toBanglaNumber(value) {
-  const number = Number(value);
-  if (!Number.isFinite(number)) return "০";
+export async function getProductBySlug(slug) {
+  const products = await getProducts();
+  const product = products.find((item) => item.slug === slug);
 
-  const banglaDigits = {
-    0: "০",
-    1: "১",
-    2: "২",
-    3: "৩",
-    4: "৪",
-    5: "৫",
-    6: "৬",
-    7: "৭",
-    8: "৮",
-    9: "৯",
-  };
+  if (!product) return null;
 
-  return number
-    .toLocaleString("en-IN", { maximumFractionDigits: 1 })
-    .replace(/[0-9]/g, (digit) => banglaDigits[digit]);
+  return getProductById(product.id);
 }
 
-export function getChangePercentage(product) {
-  const change = product?.change ?? product?.price_change ?? product?.percentage_change ?? 0;
-  const rawValue = typeof change === "object" ? change.pct ?? change.value ?? 0 : change;
-  const value = Number.parseFloat(String(rawValue).replace(/[^0-9.-]/g, "")) || 0;
-
-  if (typeof change === "object") {
-    if (change.dir === "up") return Math.abs(value);
-    if (change.dir === "down") return -Math.abs(value);
-    if (change.dir === "flat") return 0;
-  }
-
-  return value;
-}
-
-export function getProductName(product) {
-  return product?.nameBn ?? product?.name ?? product?.product_name ?? "পণ্য";
-}
-
-export function getProductUnit(unit) {
-  const units = {
-    kg: "কেজি",
-    litre: "লিটার",
-    liter: "লিটার",
-    dozen: "ডজন",
-    piece: "পিস",
-  };
-
-  return units[String(unit).toLowerCase()] ?? unit ?? "কেজি";
-}
+export { getChangePercentage, getProductName, getProductUnit, toBanglaNumber } from "./productFormatting";

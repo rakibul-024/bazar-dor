@@ -20,6 +20,17 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Authentication setup
+
+Product detail pages require a Better Auth session. Copy `.env.example` to `.env.local`, then set:
+
+- `BETTER_AUTH_SECRET` to a unique secret (generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`).
+- `BETTER_AUTH_URL` to the app origin, such as `http://localhost:3000`.
+- `BETTER_AUTH_DB_URL` to the MongoDB connection string.
+- At least one OAuth provider's client ID and secret.
+
+Register each OAuth callback URL as `http://localhost:3000/api/auth/callback/<provider>` (for example, `google` or `github`). Never commit `.env.local` or publish authentication secrets. The sign-in page only displays providers with both credentials configured.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
