@@ -20,6 +20,8 @@
 4. **পণ্যের বিস্তারিত:** সর্বনিম্ন, সর্বোচ্চ ও গড় দামের সারাংশ এবং বাজারভিত্তিক আজকের দাম।
 5. **অ্যাকাউন্ট ও প্রোফাইল:** Better Auth দিয়ে email/password ও Google/GitHub sign-in, registration এবং প্রোফাইলের নাম আপডেট।
 
+Loading skeleton, friendly 404, global toast এবং responsive footer-ও অ্যাপের অভিজ্ঞতার অংশ।
+
 ## Getting started
 
 1. Install dependencies:

@@ -11,7 +11,7 @@ export default async function ProfilePage() {
   const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
 
-  if (!session) redirect("/signin?callbackURL=%2Fprofile");
+  if (!session) redirect("/signin?callbackURL=%2Fprofile&toast=auth-required");
 
   const { user } = session;
 

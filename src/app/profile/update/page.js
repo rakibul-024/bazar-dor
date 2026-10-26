@@ -9,7 +9,7 @@ export default async function UpdateProfilePage() {
   const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
 
-  if (!session) redirect("/signin?callbackURL=%2Fprofile%2Fupdate");
+  if (!session) redirect("/signin?callbackURL=%2Fprofile%2Fupdate&toast=auth-required");
 
   return (
     <main className="mx-auto min-h-[60vh] w-full max-w-3xl px-4 py-10 sm:px-6">

@@ -29,16 +29,18 @@ function getPriceSummary(markets, fallbackPrice) {
 
 export default async function ProductDetailPage({ params }) {
   const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) notFound();
+
   const auth = await getAuth();
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
-    redirect(`/login?callbackURL=${encodeURIComponent(`/product/${slug}`)}`);
+    redirect(
+      `/signin?callbackURL=${encodeURIComponent(`/product/${slug}`)}&toast=auth-required`,
+    );
   }
-
-  const product = await getProductBySlug(slug);
-
-  if (!product) notFound();
 
   const markets = Array.isArray(product.markets) ? product.markets : [];
   const price = getPriceSummary(markets, Number(product.today ?? product.price ?? 0));
