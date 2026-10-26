@@ -39,10 +39,7 @@ export async function getAuth() {
       autoSignIn: false,
     },
     socialProviders: getOAuthProviderCredentials(),
-    trustedOrigins: [
-    "http://localhost:3000",
-    "https://bazar-dor-seven-lemon.vercel.app"
-  ],
+    
   });
 
   return authInstance;
