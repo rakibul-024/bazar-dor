@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { authClient } from "../../lib/auth-client";
+import { notify } from "../../lib/toast";
 
 const categories = [
   { id: "chal", name: "চাল", icon: "🍚" },
@@ -83,12 +85,19 @@ const NavbarPage = () => {
                   onClick={() => setShowProfileMenu((prev) => !prev)}
                   className="flex items-center gap-2 cursor-pointer py-1.5 px-3 rounded-full hover:bg-gray-100 transition-colors border border-transparent hover:border-gray-200"
                 >
-                  <div className="w-9 h-9 rounded-full overflow-hidden border border-gray-200">
-                    <img
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                      alt="Rezwan"
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-[#E1F1E7] text-sm font-bold text-[#05893E]">
+                    {session.user.image ? (
+                      <Image
+                        src={session.user.image}
+                        alt=""
+                        width={36}
+                        height={36}
+                        unoptimized
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      session.user.name?.trim().charAt(0)?.toUpperCase() ?? "👤"
+                    )}
                   </div>
                   <span className="text-sm font-semibold text-gray-800">
                     {session.user.name ?? "প্রোফাইল"}
@@ -104,23 +113,36 @@ const NavbarPage = () => {
                 </button>
 
                 {showProfileMenu && (
-                  <div className="absolute right-0 mt-2 w-44 bg-[#FAFCFA] rounded-xl shadow-lg border border-[#E5EBE5] py-1.5 z-50">
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      প্রোফাইল
+                  <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-[#E5EBE5] bg-[#FAFCFA] p-3 shadow-lg z-50">
+                    <div className="border-b border-[#E5EBE5] px-3 pb-3">
+                      <p className="truncate text-sm font-semibold text-[#1D271F]">
+                        {session.user.name ?? "ব্যবহারকারী"}
+                      </p>
+                      <p className="truncate text-xs text-gray-500">{session.user.email}</p>
+                    </div>
+                    <Link
+                      href="/profile"
+                      onClick={() => setShowProfileMenu(false)}
+                      className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      <span aria-hidden="true">👤</span>
+                      <span>আমার প্রোফাইল</span>
                     </Link>
                     <button
                       type="button"
                       onClick={async () => {
                         try {
-                          await authClient.signOut();
+                          const result = await authClient.signOut();
+                          if (result.error) throw new Error(result.error.message);
+                          notify("সফলভাবে সাইন আউট হয়েছে।", "success");
                         } catch (error) {
-                          console.error("Failed to sign out", error);
+                          notify(error.message || "সাইন আউট করা যায়নি। আবার চেষ্টা করুন।", "error");
                         }
                         setShowProfileMenu(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center justify-between cursor-pointer"
+                      className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center justify-between cursor-pointer rounded-lg"
                     >
-                      <span>সাইন আউট</span>
+                      <span>↪ সাইন আউট</span>
                     </button>
                   </div>
                 )}
@@ -130,17 +152,20 @@ const NavbarPage = () => {
                 সাইন ইন সুবিধা এই মুহূর্তে অনুপলব্ধ
               </span>
             ) : isSessionPending ? (
-              <span className="px-4 py-2 text-sm text-gray-500">লোড হচ্ছে...</span>
+              <span
+                aria-label="সেশন লোড হচ্ছে"
+                className="h-9 w-24 animate-pulse rounded-lg bg-[#E5EBE5]"
+              />
             ) : (
               <div className="flex items-center gap-2 sm:gap-3">
                 <Link
-                  href="/login"
+                  href="/signin"
                   className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-[#05893E] hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
                 >
                   সাইন ইন
                 </Link>
                 <Link
-                  href="/login"
+                  href="/signup"
                   className="px-4 py-2 text-sm font-semibold text-white bg-[#05893E] hover:bg-[#047735] rounded-lg shadow-sm transition-colors cursor-pointer"
                 >
                   সাইন আপ

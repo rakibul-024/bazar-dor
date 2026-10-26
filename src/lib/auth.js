@@ -33,6 +33,11 @@ export async function getAuth() {
     database: mongodbAdapter(client.db(), { client }),
     secret,
     baseURL,
+    emailAndPassword: {
+      enabled: true,
+      requireEmailVerification: false,
+      autoSignIn: false,
+    },
     socialProviders: getOAuthProviderCredentials(),
   });
 

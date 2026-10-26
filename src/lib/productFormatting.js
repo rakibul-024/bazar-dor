@@ -20,6 +20,20 @@ export function toBanglaNumber(value) {
     .replace(/[0-9]/g, (digit) => banglaDigits[digit]);
 }
 
+export function toNumericValue(value) {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  const normalized = String(value ?? "")
+    .replace(/[০-৯]/g, (digit) => String("০১২৩৪৫৬৭৮৯".indexOf(digit)))
+    .replace(/,/g, "")
+    .replace(/[^\d.-]/g, "");
+  const parsed = Number.parseFloat(normalized);
+
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 export function getChangePercentage(product) {
   const change = product?.change ?? product?.price_change ?? product?.percentage_change ?? 0;
   const rawValue = typeof change === "object" ? change.pct ?? change.value ?? 0 : change;

@@ -1,47 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# বাজার দর | BazarDor
 
-## Getting Started
+বাজার দর একটি responsive বাজারদর অ্যাপ, যেখানে বাংলাদেশের নিত্যপ্রয়োজনীয় পণ্যের আজকের দাম, বাজারভেদে মূল্য এবং দামের পরিবর্তন এক জায়গায় দেখা যায়।
 
-First, run the development server:
+## Technologies
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js App Router
+- React
+- JavaScript
+- Tailwind CSS
+- Better Auth
+- MongoDB
+- BazarDor Products API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **আজকের বাজারদর:** চাল, ডাল, সবজি, মাছ, মাংসসহ বিভিন্ন পণ্যের দাম responsive card-এ দেখায়।
+2. **দাম পরিবর্তন:** আজ দাম বেড়েছে ও কমেছে—এমন পণ্যের আলাদা তালিকা এবং পরিবর্তনের badge।
+3. **ক্যাটাগরি ও sorting:** ক্যাটাগরির পণ্য দেখা এবং বাংলা অঙ্কসহ দাম কম বা বেশি অনুযায়ী সাজানো।
+4. **পণ্যের বিস্তারিত:** সর্বনিম্ন, সর্বোচ্চ ও গড় দামের সারাংশ এবং বাজারভিত্তিক আজকের দাম।
+5. **অ্যাকাউন্ট ও প্রোফাইল:** Better Auth দিয়ে email/password ও Google/GitHub sign-in, registration এবং প্রোফাইলের নাম আপডেট।
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Getting started
 
-## Authentication setup
+1. Install dependencies:
 
-Product detail pages require a Better Auth session. Copy `.env.example` to `.env.local`, then set:
+   ```bash
+   npm install
+   ```
 
-- `BETTER_AUTH_SECRET` to a unique secret (generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`).
-- `BETTER_AUTH_URL` to the app origin, such as `http://localhost:3000`.
-- `BETTER_AUTH_DB_URL` to the MongoDB connection string.
-- At least one OAuth provider's client ID and secret.
+2. Copy `.env.example` to `.env.local` and configure:
+   - `BETTER_AUTH_SECRET`: a unique secret; generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`.
+   - `BETTER_AUTH_URL`: the app origin, for example `http://localhost:3000`.
+   - `BETTER_AUTH_DB_URL`: a MongoDB connection string.
+   - Google and/or GitHub OAuth client ID and secret.
 
-Register each OAuth callback URL as `http://localhost:3000/api/auth/callback/<provider>` (for example, `google` or `github`). Never commit `.env.local` or publish authentication secrets. The sign-in page only displays providers with both credentials configured.
+   Register the OAuth callback URLs as `http://localhost:3000/api/auth/callback/google` and `http://localhost:3000/api/auth/callback/github`.
 
-## Learn More
+3. Start the development server:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Open [http://localhost:3000](http://localhost:3000). Authentication pages are available at `/signin` and `/signup`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Never commit `.env.local` or publish authentication credentials.

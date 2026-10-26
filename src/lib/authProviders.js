@@ -7,10 +7,6 @@ const providerEnvironment = {
     clientId: ["GITHUB_CLIENT_ID", "BETTER_AUTH_GITHUB_CLIENT_ID"],
     clientSecret: ["GITHUB_CLIENT_SECRET", "BETTER_AUTH_GITHUB_SECRET"],
   },
-  discord: {
-    clientId: ["DISCORD_CLIENT_ID", "BETTER_AUTH_DISCORD_CLIENT_ID"],
-    clientSecret: ["DISCORD_CLIENT_SECRET", "BETTER_AUTH_DISCORD_SECRET"],
-  },
 };
 
 function firstConfigured(keys) {
